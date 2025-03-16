@@ -172,3 +172,14 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Ignore virtual environment directory
+customerChurnPrediction/
+
+
+# Ignore Jupyter notebook checkpoints
+notebooks/.ipynb_checkpoints/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
