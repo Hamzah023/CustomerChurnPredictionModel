@@ -1,14 +1,30 @@
 import kaggle
 import os   
 
-dataSet = 'blastchar/telco-customer-churn'
-dataPath = './data'
+def downloadData():
+    dataSet = 'blastchar/telco-customer-churn'
+    dataPath = '../data'
 
-if not os.path.exists(dataPath):
-    os.makedirs(dataPath)
+    if not os.path.exists(dataPath):
+        os.makedirs(dataPath)
 
 
-kaggle.api.dataset_download_files(dataSet, path='./data', unzip=True)
+    kaggle.api.dataset_download_files(dataSet, path=dataPath, unzip=True)
 
-print("Data downloaded successfully!")
+    print("Data downloaded successfully!")
+
+    filePath = os.path.join(dataPath, 'WA_Fn-UseC_-Telco-Customer-Churn.csv')
+
+    print(f"Data file path: {filePath}")
+
+    return filePath
+
+def getFilePath():
+
+    filePath = './data/WA_Fn-UseC_-Telco-Customer-Churn.csv'
+
+    if not os.path.exists(filePath): 
+        filePath = downloadData()
+
+    return filePath
 
