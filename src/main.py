@@ -25,8 +25,6 @@ def cleanDataMain():
     cleaned_file_path = os.path.join(OUTPUT_DIR, "cleaned_telco_data.csv")
     cleaned_df.to_csv(cleaned_file_path, index=True) # Save cleaned data to a new file, index=False to avoid saving the index column
 
-    print(f"✅ Cleaned dataset saved at: {cleaned_file_path}\n")
-
 def customer_churn_prediction():
     print("Running customer churn prediction model...\n")
 

@@ -4,7 +4,6 @@ import os
 
 
 def cleanData(data):
-   print("Cleaning data...\n")
 
    filePath = getFilePath()
    df = pd.read_csv(filePath)
@@ -23,26 +22,37 @@ def cleanData(data):
         print(df.dtypes) #df.dtypes is used to display the data types of each column in the dataframe
         print(df['TotalCharges'].unique()) #df['TotalCharges'].unique() is used to display the unique values in the 'TotalCharges' column
         print(df['TotalCharges'].value_counts()) #df['TotalCharges'].value_counts() is used to display the frequency of each unique value in the 'TotalCharges' column
-        print(df['TotalCharges'].replace(' ', 0, inplace=True))
-        print(df['TotalCharges'].dtype)
-        df['TotalCharges'] = df['TotalCharges'].astype(float)
-        print(df['TotalCharges'].mean())
+
+        print("optional")
+
+        df['TotalCharges'] = df['TotalCharges'].replace(' ', 0)#this code replaces empty ,strings with 0 in the 'TotalCharges' column, in place parameter is set to true to make the changes permanent
+        print(df['TotalCharges'])
+        print(df['TotalCharges'].dtype) #this code displays the data type of the 'TotalCharges' column
+        df['TotalCharges'] = df['TotalCharges'].astype(float) #this code converts the 'TotalCharges' column to float data type
+        print(df['TotalCharges'].mean()) 
         print(df['TotalCharges'].median())
         print(df['TotalCharges'].mode())
-        print(df['TotalCharges'].std())
+        print(df['TotalCharges'].std()) #standard deviation
         print(df['TotalCharges'].min())
         print(df['TotalCharges'].max())
-        print(df['TotalCharges'].isnull().sum())
-        print(df['TotalCharges'].fillna(df['TotalCharges'].mean(), inplace=True))
-        print(df['TotalCharges'].isnull().sum())
-        print(df['TotalCharges'].describe())
+        print(df['TotalCharges'].isnull().sum()) #check for missing values in the 'TotalCharges' column
+
+        missing_before = df["TotalCharges"].isnull()
+        
+        df['TotalCharges'].fillna(df['TotalCharges'].mean()) #fill missing values in the 'TotalCharges' column with the mean value
+        #print the 
+
+        print("Values filled with the mean value in the Total Charges Collumn: \n")
+        print(df.loc[missing_before, "TotalCharges"])
+
+        print(df['TotalCharges'].describe()) #display the summary statistics of the 'TotalCharges' column
     
     #handle missing values
    df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors='coerce') #convert 'TotalCharges' column to numeric values
-   df["TotalCharges"].fillna(df["TotalCharges"].mean(), inplace=True) #fill missing values in 'TotalCharges' column with the mean value
+   df["TotalCharges"].fillna(df["TotalCharges"].mean()) #fill missing values in 'TotalCharges' column with the mean value
    
    print("Handled missing values.\n")
-   print("Missing values check in the dataframe returns: f'{df.isnull().sum()}\n") #check for missing values in the dataframe
+   print(f"Missing values check in the dataframe returns:\n {df.isnull().sum()}\n") #check for missing values in the dataframe
 
    #convert categorical columns to numerical
    categoricalCols = ["gender", "Partner", "Dependents", "PhoneService", "MultipleLines",
@@ -65,12 +75,15 @@ def cleanData(data):
    print(df.head())
 
    OUTPUT_DIR = '../data'
+   if not os.path.exists(OUTPUT_DIR):
+         os.makedirs(OUTPUT_DIR)
+
    cleaned_file_path = os.path.join(OUTPUT_DIR, "cleaned_telco_data.csv")
    df.to_csv(cleaned_file_path, index=True) #save cleaned data to a new file
    print(f"✅ Cleaned dataset saved at: {cleaned_file_path}\n")
 
    print("Data cleaning completed!\n")
-   
+
    return df
    
 
