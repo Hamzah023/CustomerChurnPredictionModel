@@ -15,11 +15,17 @@ def loadData():
 
 def cleanDataMain(df):
     print("Cleaning data...\n")
-
     cleaned_df = cleanData(df)
     OUTPUT_DIR = '../data'
+    if not os.path.exists(OUTPUT_DIR):
+        os.makedirs(OUTPUT_DIR)
+
     cleaned_file_path = os.path.join(OUTPUT_DIR, "cleaned_telco_data.csv")
     cleaned_df.to_csv(cleaned_file_path, index=False) # Save cleaned data to a new file, index=False to avoid saving the index column
+
+    print(f"Cleaned data saved to {cleaned_file_path}\n")
+
+    return cleaned_df
 
 def customer_churn_prediction():
     print("Running customer churn prediction model...\n")
@@ -44,7 +50,7 @@ def main():
             if df is None:
                 print("Data not loaded. Please load data first.\n")
             else:
-                cleanDataMain(df)
+                df = cleanDataMain(df)
         elif choice == '3':
             if df is None:
                 print("Data not loaded. Please load data first.\n")
