@@ -1,4 +1,4 @@
-# Customer Churn Prediction & Dashboard Project
+# Customer Churn Prediction Model & Data Pipeline
 
 ## Overview
 
