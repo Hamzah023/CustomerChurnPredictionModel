@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from kaggleApi import downloadData, getFilePath
 from dataCleaning import cleanData
+from handleClassImbalance import handleClassImbalance
 
 def loadData():
     print("Loading data using Kaggle API...\n")
@@ -16,16 +17,18 @@ def loadData():
 def cleanDataMain(df):
     print("Cleaning data...\n")
     cleaned_df = cleanData(df)
-    OUTPUT_DIR = '../data'
-    if not os.path.exists(OUTPUT_DIR):
-        os.makedirs(OUTPUT_DIR)
 
-    cleaned_file_path = os.path.join(OUTPUT_DIR, "cleaned_telco_data.csv")
-    cleaned_df.to_csv(cleaned_file_path, index=False) # Save cleaned data to a new file, index=False to avoid saving the index column
+    if cleaned_df is not None:
+        print("Data cleaned successfully!\n")
 
-    print(f"Cleaned data saved to {cleaned_file_path}\n")
+        print("Handling class imbalance...\n")
+        balanced_df = handleClassImbalance(cleaned_df)
+        return cleaned_df, balanced_df
+    
+    else:
+        error = "Data not cleaned. Please check the file."
 
-    return cleaned_df
+    return error
 
 def customer_churn_prediction():
     print("Running customer churn prediction model...\n")

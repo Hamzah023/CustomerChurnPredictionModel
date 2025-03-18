@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 import os
 import logging
+from imblearn.over_sampling import SMOTE
 
 logging.basicConfig(level=logging.INFO)
 
@@ -20,7 +21,6 @@ def cleanData(df: pd.DataFrame) -> pd.DataFrame:
 
     logging.info("Data loaded successfully!")
 
-    print("Data loaded successfully!")
 
     print("\ndataset summary information: \n")
     print(df.info()) #df.info() is used to display the summary of the dataframe
@@ -28,27 +28,33 @@ def cleanData(df: pd.DataFrame) -> pd.DataFrame:
     print("\nsummary statistics of the dataframe:\n")
     print(df.describe()) #df.describe() is used to display the summary statistics of the dataframe
 
-    print("\ncolumn names, number of rows and columns, missing values, data types, unique values and frequency of each unique value in the 'TotalCharges' column: \n")
-    print(df.columns) #df.columns is used to display the column names of the dataframe
 
     print("\nChecking for missing values in each column:")
-    print(df.isnull().sum(), "\n") #df.isnull().sum() is used to display the number of missing values in each column of the dataframe   
+    print(df.isnull().sum(), "\n") #df.isnull().sum() is used to display the number of missing values in each column of the dataframe  
+
+    # Dynamically identify binary columns
+    binary_columns = [col for col in df.columns if df[col].nunique() == 2]
+    print(f"Binary columns identified: {binary_columns}")
+
+
+    # Convert boolean columns to integers
+    boolean_columns = df.select_dtypes(include=['bool']).columns
+
+    if len(boolean_columns) > 0:
+
+        df[boolean_columns] = df[boolean_columns].astype(int)
+        print(f"Converted boolean columns to integers: {boolean_columns.tolist()}")
 
     print("Handling missing values in the 'TotalCharges' column: \n")
 
-    
-    #convert 'TotalCharges' column to numeric values
-    print("Converting 'TotalCharges' column to numeric values...")
-    df['TotalCharges'] = pd.to_numeric(df['TotalCharges'], errors='coerce')
-    
-    #count the missing values in the 'TotalCharges' column
-    missingVals = df["TotalCharges"].isnull().sum()
+    # Convert 'TotalCharges' column to numeric values
+    df['TotalCharges'] = pd.to_numeric(df['TotalCharges'], errors='coerce') #pd.to_numeric() is used to convert the 'TotalCharges' column to numeric values
+    missing_vals_before = df['TotalCharges'].isnull().sum()
 
-    print("Missing values in the 'TotalCharges' column: \n")
-    print(missingVals, "\n")
+    df['TotalCharges'] = df['TotalCharges'].fillna(df['TotalCharges'].median()) #fill the missing values in the 'TotalCharges' column with the median value
+    missing_vals_after = df['TotalCharges'].isnull().sum()
 
-    #replace missing values with 0
-    df["TotalCharges"] = df["TotalCharges"].fillna(0)
+    logging.info(f"Missing values in 'TotalCharges': Before = {missing_vals_before}, After = {missing_vals_after}")
 
     # Verify the changes
     print(f"Total unique values in 'TotalCharges': {df['TotalCharges'].nunique()}")
@@ -85,86 +91,76 @@ def cleanData(df: pd.DataFrame) -> pd.DataFrame:
         # Apply one-hot encoding
         df = pd.get_dummies(df, columns=categoricalCols)
         print("\nConverted categorical columns to numerical using one-hot encoding.\n")
-        print(df.head())
+
     else:
         print("No categorical columns found for one-hot encoding.")
 
+    # Dynamically identify redundant columns to drop
+    columns_to_drop = []
+    if 'gender_Male' in df.columns and 'gender_Female' in df.columns:
+        columns_to_drop.append('gender_Male')
 
-   #drop unnecessary columns
-    df.drop(["customerID"], axis=1, inplace=True) #drop 'customerID' column, axis 1 means that we are dropping a column
-    print("\nDropped 'customerID' column.\n")
-   
+    if 'Churn_No' in df.columns and 'Churn_Yes' in df.columns:
+        columns_to_drop.append('Churn_No')
 
-   #check for duplicate rows
-    df.drop_duplicates(inplace=True) #drop duplicate rows in the dataframe, the inplace parameter is true to make the changes permanent
-    print(df.head())
+    if 'Partner_No' in df.columns:
+        columns_to_drop.append('Partner_No')
 
-    # Check for non-numeric or missing values in TotalCharges
-    print("\nThis should be 0 if there are no non-numeric or missing values in TotalChange: ", df['TotalCharges'].isnull().sum())  # Should be 0
+    if columns_to_drop:
 
-    #Check for the data type of the TotalCharges column
+        df.drop(columns=columns_to_drop, inplace=True)
+        print("Dropped redundant columns:", columns_to_drop)
 
-    print("The data type of the totalChange column: ",df['TotalCharges'].dtype, "\n")  # Should be float64 or int64
+    # Drop unnecessary columns
+    if 'customerID' in df.columns:
 
-    # Check for inconsistencies in binary columns
-    print("this should be 0: ", (df['gender_Female'] & df['gender_Male']).sum())  # Should be 0
-    print("this should be 0: ", (~df['gender_Female'] & ~df['gender_Male']).sum(), "\n")  # Should be 0
+        df.drop(["customerID"], axis=1, inplace=True)
+        print("\nDropped 'customerID' column.\n")
 
-    # Check for inconsistencies in Churn columns
-    print("this should be 0: ", (df['Churn_No'] & df['Churn_Yes']).sum())  # Should be 0
-    print("this should be 0: ", (~df['Churn_No'] & ~df['Churn_Yes']).sum(), "\n")  # Should be 0
+    # Check for duplicate rows and log the number of duplicates dropped
+    initial_row_count = df.shape[0]
+    df.drop_duplicates(inplace=True)
+    final_row_count = df.shape[0]
+    logging.info(f"Dropped {initial_row_count - final_row_count} duplicate rows.")
 
-    #check for missing values after cleaning
-    print("Missing values after cleaning: ")
-    print(df.isnull().sum())
-
-    print("check the data types of the columns after cleaning:\n ")
-    print(df.dtypes)
-
-    scaler = MinMaxScaler() #A MinMaxScaler is used to scale the data to a specified range, in this case, between 0 and 1
-    df[['tenure',
-    'MonthlyCharges',
-    'TotalCharges']] = scaler.fit_transform(df[['tenure',
-    'MonthlyCharges',
-    'TotalCharges']])
-    print("\nScaled 'tenure', 'MonthlyCharges', and 'TotalCharges' columns.\n")
+    # Validate columns before scaling
+    scaling_columns = ['tenure', 'MonthlyCharges', 'TotalCharges']
+    scaling_columns = [col for col in scaling_columns if col in df.columns]
+    
+    if scaling_columns:
+        scaler = MinMaxScaler()
+        df[scaling_columns] = scaler.fit_transform(df[scaling_columns]) #fit_transform() is used to scale the data to a specified range which is 0 to 1 in this case
+        print(f"\nScaled columns: {scaling_columns}\n")
+    else:
+        print("No columns found for scaling.")
 
     # Ensure no inconsistencies in binary columns
     if 'gender_Female' in df.columns and 'gender_Male' in df.columns:
-        assert (df['gender_Female'] & df['gender_Male']).sum() == 0, "Inconsistency found in gender columns!"
+        assert (df['gender_Female'] & df['gender_Male']).sum() == 0, "Inconsistency found in gender columns!" #assert is used to check if the condition is true, if not it raises an error
+
         assert (~df['gender_Female'] & ~df['gender_Male']).sum() == 0, "Inconsistency found in gender columns!"
 
     if 'Churn_No' in df.columns and 'Churn_Yes' in df.columns:
         assert (df['Churn_No'] & df['Churn_Yes']).sum() == 0, "Inconsistency found in Churn columns!"
+
         assert (~df['Churn_No'] & ~df['Churn_Yes']).sum() == 0, "Inconsistency found in Churn columns!"
 
-    # Dynamically drop redundant columns
-    columns_to_drop = []
-    if 'gender_Male' in df.columns and 'gender_Female' in df.columns:
-        columns_to_drop.append('gender_Male')
-    if 'Churn_No' in df.columns and 'Churn_Yes' in df.columns:
-        columns_to_drop.append('Churn_No')
+        
+    #checking the distribution of Churn_Yes and apply balancing techniques if needed
+    print("Checking the distribution of Churn_Yes: \n")
+    print(df['Churn_Yes'].value_counts())
 
-    df.drop(columns=columns_to_drop, inplace=True)
-    print("Dropped redundant columns:", columns_to_drop)
-        # Dynamically identify redundant columns to drop
-    columns_to_drop = []
+    #convert boolean columns to integer values
+    print("\nConverting boolean columns to integer values: \n")
+    df = df.astype({col: 'int' for col in df.select_dtypes(include=['bool']).columns})
 
-    if 'gender_Male' in df.columns and 'gender_Female' in df.columns:
-        columns_to_drop.append('gender_Male')
-
-    if 'Churn_No' in df.columns and 'Churn_Yes' in df.columns:
-        columns_to_drop.append('Churn_No')
-
-    # Drop the identified columns
-    df.drop(columns=columns_to_drop, inplace=True)
-    print("Dropped redundant columns:", columns_to_drop)
 
     OUTPUT_DIR = '../data'
     if not os.path.exists(OUTPUT_DIR):
             os.makedirs(OUTPUT_DIR)
 
     cleaned_file_path = os.path.join(OUTPUT_DIR, "cleaned_telco_data.csv")
+
     df.to_csv(cleaned_file_path, index=False) #save cleaned data to a new file
     print(f"✅ Cleaned dataset saved at: {cleaned_file_path}\n")
 
