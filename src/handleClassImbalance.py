@@ -45,5 +45,11 @@ def handleClassImbalance(df: pd.DataFrame) -> pd.DataFrame:
     df_resampled.to_csv(balanced_file_path, index=False)
     print(f"✅ Balanced dataset saved at: {balanced_file_path}\n")
 
+    balanced_file_path_xlsx = os.path.join(OUTPUT_DIR, "balanced_telco_data.xlsx")
+    df.to_excel(balanced_file_path_xlsx, index=False)
+    print(f"✅ Balanced dataset saved as Excel at: {balanced_file_path_xlsx}")
+
+    print("Class imbalance handling completed!\n")
+
     return df_resampled
 

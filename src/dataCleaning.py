@@ -128,7 +128,7 @@ def cleanData(df: pd.DataFrame) -> pd.DataFrame:
     scaling_columns = [col for col in scaling_columns if col in df.columns]
     
     if scaling_columns:
-        scaler = MinMaxScaler()
+        scaler = MinMaxScaler() #min-max scaling is used to scale the data to a specified range which is 0 to 1 in this case, here MinMaxScaler() is used to scale the data
         df[scaling_columns] = scaler.fit_transform(df[scaling_columns]) #fit_transform() is used to scale the data to a specified range which is 0 to 1 in this case
         print(f"\nScaled columns: {scaling_columns}\n")
     else:
@@ -163,6 +163,11 @@ def cleanData(df: pd.DataFrame) -> pd.DataFrame:
 
     df.to_csv(cleaned_file_path, index=False) #save cleaned data to a new file
     print(f"✅ Cleaned dataset saved at: {cleaned_file_path}\n")
+
+
+    cleaned_file_path_xlsx = os.path.join(OUTPUT_DIR, "cleaned_telco_data.xlsx")
+    df.to_excel(cleaned_file_path_xlsx, index=False)
+    print(f"✅ Cleaned dataset saved as Excel at: {cleaned_file_path_xlsx}")
 
     print("Data cleaning completed!\n")
 
