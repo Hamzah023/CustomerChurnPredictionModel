@@ -322,4 +322,67 @@ In summary, Min-Max scaling transforms your data to fit within a specific range,
 - SMOTE (Synthetic Minority Oversampling Technique)
 
 
-okk
+1. Upload Your Data to Power BI Service
+Log in to Power BI Service.
+Go to My Workspace > + New > Upload a File.
+Upload the cleaned_telco_data.xlsx or balanced_telco_data.xlsx file.
+Power BI will create a dataset from the uploaded file.
+2. Create a Report
+After uploading the dataset, click on the dataset name (e.g., balanced_telco_data).
+This will open the Report Editor.
+3. Create Cool Graphs
+Here are some ideas for visualizations you can create:
+
+Graph 1: Churn Rate by Tenure (Bar Chart)
+Purpose: Show how churn rate varies across different tenure ranges.
+Steps:
+Drag tenure to the X-axis.
+Drag Churn_Yes to the Y-axis.
+Change the visualization type to Clustered Bar Chart.
+Apply a filter to show only Churn_Yes = 1 (churned customers).
+Graph 2: Monthly Charges vs. Churn (Scatter Plot)
+Purpose: Analyze the relationship between monthly charges and churn.
+Steps:
+Drag MonthlyCharges to the X-axis.
+Drag tenure to the Y-axis.
+Drag Churn_Yes to the Legend.
+Change the visualization type to Scatter Chart.
+Customize the colors to make churned customers stand out.
+Graph 3: Churn Distribution (Pie Chart)
+Purpose: Show the percentage of customers who churned vs. retained.
+Steps:
+Drag Churn_Yes to the Values field.
+Change the visualization type to Pie Chart.
+Customize the chart colors to differentiate churned and retained customers.
+Graph 4: Revenue by Contract Type (Stacked Column Chart)
+Purpose: Compare revenue across different contract types.
+Steps:
+Drag Contract to the X-axis.
+Drag MonthlyCharges to the Y-axis.
+Change the visualization type to Stacked Column Chart.
+Add Churn_Yes to the Legend to break down revenue by churn status.
+Graph 5: Churn Rate by Payment Method (Tree Map)
+Purpose: Visualize churn rates across different payment methods.
+Steps:
+Drag PaymentMethod to the Group field.
+Drag Churn_Yes to the Values field.
+Change the visualization type to Tree Map.
+4. Customize Your Graphs
+Add Titles: Click on the graph and go to the Format Pane > Title to add a meaningful title.
+Apply Filters: Use the Filters Pane to filter data (e.g., show only churned customers).
+Add Slicers: Add slicers for fields like Contract, PaymentMethod, or tenure to make the dashboard interactive.
+5. Save and Share
+Save your report by clicking File > Save and give it a name (e.g., Telco Churn Report).
+Pin visualizations to a dashboard:
+Hover over a graph and click the Pin icon.
+Choose an existing dashboard or create a new one.
+Share the dashboard:
+Go to the dashboard and click Share.
+Enter the email addresses of the people you want to share it with.
+6. Example Graphs
+Here’s what your graphs might look like:
+
+Bar Chart: Tenure vs. Churn Rate
+Scatter Plot: Monthly Charges vs. Tenure (colored by churn)
+Pie Chart: Churned vs. Retained Customers
+Tree Map: Churn Rate by Payment Method
