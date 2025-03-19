@@ -183,3 +183,22 @@ notebooks/.ipynb_checkpoints/
 # Ignore Python cache files
 __pycache__/
 *.pyc
+
+data/
+
+# Mac OS file system metadata
+.DS_Store 
+
+.vscode/
+.idea/
+*.iml
+
+#ignore src/__pycache__/
+src/__pycache__/
+
+
+
+
+
+
+
