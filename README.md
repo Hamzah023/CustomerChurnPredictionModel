@@ -126,6 +126,62 @@ SMOTE (Synthetic Minority Oversampling Technique):
 SQLite:
     Lightweight, file-based database for storing cleaned and balanced data.
 
+Random Forest Classification for Churn Prediction
+
+The Random Forest Classification algorithm is an ensemble learning method that uses multiple decision trees to predict whether a customer will churn (e.g., Churn = Yes or Churn = No). It works by combining the predictions of individual decision trees to improve accuracy and reduce overfitting.
+
+How It Works
+Bootstrap Sampling:
+   Random subsets of the training data are created using sampling with replacement.
+   Each subset is used to train a separate decision tree.
+   
+Feature Randomness:
+   At each split in a decision tree, only a random subset of features is considered to reduce correlation between trees.
+   
+Training Decision Trees:
+   Each decision tree is trained independently on its respective subset of data.
+   The trees learn to classify customers as Churn = Yes or Churn = No.
+   
+Prediction Aggregation:
+
+   For a new customer, each tree predicts a class (Yes or No).
+   The final prediction is made by majority voting (the class predicted by the most trees).
+   
+Advantages for Churn Prediction
+Handles Imbalanced Data:
+   Works well with techniques like SMOTE to balance the dataset before training.
+Feature Importance:
+   Identifies which features (e.g., tenure, MonthlyCharges) are most important for predicting churn.
+Robustness:
+   Reduces overfitting by averaging predictions from multiple trees.
+Nonlinear Relationships:
+   Captures complex patterns in customer behavior.
+
+Steps in Churn Prediction
+Data Preparation:
+   Clean the dataset (handle missing values, encode categorical variables, scale numerical features).
+   Balance the dataset using SMOTE to address class imbalance.
+
+Train the Random Forest Model:
+   Use the balanced dataset to train the model.
+   Example: RandomForestClassifier(n_estimators=100, random_state=42).
+   
+Evaluate the Model:
+   Use metrics like accuracy, precision, recall, F1-score, and a confusion matrix to assess performance.
+   Example:
+   Accuracy: 84%
+   Precision (Churn): 82%
+   Recall (Churn): 87%
+   F1-Score (Churn): 84%
+   
+Make Predictions:
+   Predict whether a customer will churn based on their features (e.g., tenure, MonthlyCharges, TotalCharges).
+   
+Why Random Forest is Effective for Churn
+   Handles High-Dimensional Data: Works well with datasets containing many features.
+   Reduces Overfitting: Combines multiple trees to generalize better on unseen data.
+   Interpretable: Provides feature importance scores to understand key drivers of churn.
+
 🛠️ Future Enhancements
 Add support for other databases like PostgreSQL or MySQL.
 Automate Power BI dashboard refresh using cloud services.
