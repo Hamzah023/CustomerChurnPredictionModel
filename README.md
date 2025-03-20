@@ -152,9 +152,3 @@ python src/main.py
 
 ---
 
-## 📧 Contact
-For any questions or collaboration opportunities, feel free to reach out!
-
-- **GitHub:** [Your GitHub Profile](https://github.com/Hamzah023)
-- **LinkedIn:** [Your LinkedIn Profile](#)
-
