@@ -386,3 +386,69 @@ Bar Chart: Tenure vs. Churn Rate
 Scatter Plot: Monthly Charges vs. Tenure (colored by churn)
 Pie Chart: Churned vs. Retained Customers
 Tree Map: Churn Rate by Payment Method
+
+
+The confusion matrix and classification report you provided indicate the performance of your churn prediction model. Here's how to interpret the results:
+
+1. Confusion Matrix
+The confusion matrix is:
+[[840 194]
+ [136 896]]
+
+Rows: Represent the actual classes (0 = No Churn, 1 = Churn).
+Columns: Represent the predicted classes (0 = No Churn, 1 = Churn).
+Predicted No Churn (0)	Predicted Churn (1)
+Actual No Churn (0)	840	194
+Actual Churn (1)	136	896
+
+
+Key Metrics from the Confusion Matrix:
+True Positives (TP): 896
+Customers who actually churned and were correctly predicted as churned.
+True Negatives (TN): 840
+Customers who did not churn and were correctly predicted as not churned.
+False Positives (FP): 194
+Customers who did not churn but were incorrectly predicted as churned.
+False Negatives (FN): 136
+Customers who churned but were incorrectly predicted as not churned.
+
+
+2. Classification Report
+The classification report provides detailed metrics for each class (0 = No Churn, 1 = Churn):
+
+Metric	Class 0 (No Churn)	Class 1 (Churn)	Macro Avg	Weighted Avg
+Precision	0.86	0.82	0.84	0.84
+Recall	0.81	0.87	0.84	0.84
+F1-Score	0.84	0.84	0.84	0.84
+Support	1034	1032	-	-
+
+
+Key Metrics:
+Precision:
+Precision for Class 1 (Churn) = 0.82
+This means that 82% of the customers predicted as churned were actually churned.
+Precision for Class 0 (No Churn) = 0.86
+This means that 86% of the customers predicted as not churned were actually not churned.
+Recall:
+
+Recall for Class 1 (Churn) = 0.87
+This means that 87% of the actual churned customers were correctly identified by the model.
+Recall for Class 0 (No Churn) = 0.81
+This means that 81% of the actual non-churned customers were correctly identified by the model.
+F1-Score:
+
+F1-Score for Class 1 (Churn) = 0.84
+This is the harmonic mean of precision and recall for churned customers.
+F1-Score for Class 0 (No Churn) = 0.84
+This is the harmonic mean of precision and recall for non-churned customers.
+Accuracy:
+
+Overall accuracy = 0.84 (84%)
+This means that 84% of the predictions (both churned and non-churned) were correct.
+
+
+3. Insights
+The model performs well overall, with an accuracy of 84%.
+The precision and recall for both classes are balanced, which is good for a churn prediction model.
+The false positives (194) and false negatives (136) are relatively low, but you may want to focus on reducing false negatives (customers who churned but were predicted as not churned) since retaining churned customers is often a business priority.
+

@@ -184,7 +184,6 @@ notebooks/.ipynb_checkpoints/
 __pycache__/
 *.pyc
 
-data/
 
 # Mac OS file system metadata
 .DS_Store 
