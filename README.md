@@ -34,6 +34,23 @@ The **Random Forest Classifier** achieved the following performance metrics on t
 
 ---
 
+## 🌳 Understanding Random Forest Classification
+
+The **Random Forest Classifier** is an ensemble learning algorithm that builds multiple decision trees and aggregates their predictions to improve accuracy and reduce overfitting. Here's how it works:
+
+### 📌 **Key Steps:**
+- **Bootstrap Sampling:** Random subsets of the data are created using sampling with replacement. Each subset is used to train a separate decision tree.
+- **Feature Randomness:** At each node, a random subset of features is considered for splitting, reducing correlation between trees.
+- **Voting Mechanism:** The final prediction is made based on majority voting among all decision trees.
+
+### 📊 **Why Random Forest for Churn Prediction?**
+- **Handles Imbalanced Data:** Effective when paired with techniques like **SMOTE**.
+- **Feature Importance:** Provides insights into which features (e.g., tenure, MonthlyCharges) contribute most to churn.
+- **Robustness:** Reduces overfitting compared to individual decision trees.
+- **Nonlinear Relationships:** Captures complex patterns in customer behavior.
+
+---
+
 ## 🛠️ How It Works
 ### **1. Download Data**
 - Automatically downloads the dataset from **Kaggle** using the API.
