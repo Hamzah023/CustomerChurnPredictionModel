@@ -1,4 +1,3 @@
-Combined Interview
 SQL PowerBI
 python, pandas, powerquery
 
@@ -451,4 +450,101 @@ This means that 84% of the predictions (both churned and non-churned) were corre
 The model performs well overall, with an accuracy of 84%.
 The precision and recall for both classes are balanced, which is good for a churn prediction model.
 The false positives (194) and false negatives (136) are relatively low, but you may want to focus on reducing false negatives (customers who churned but were predicted as not churned) since retaining churned customers is often a business priority.
+
+
+
+
+Here’s a breakdown of regression, classification, and unsupervised vs supervised models, along with examples of models for each:
+
+1. Regression Models
+Regression models are used for predicting continuous numerical values. The goal is to find a relationship between input features (independent variables) and a target variable (dependent variable).
+
+Examples of Use Cases:
+Predicting house prices.
+Forecasting sales or stock prices.
+Estimating temperature or rainfall.
+Common Regression Models:
+Linear Regression:
+Fits a straight line to the data.
+Example: Predicting house prices based on square footage.
+Polynomial Regression:
+Fits a polynomial curve to the data.
+Example: Modeling non-linear relationships like growth rates.
+Ridge and Lasso Regression:
+Regularized versions of linear regression to prevent overfitting.
+Decision Tree Regressor:
+Splits data into regions and predicts the mean value in each region.
+Random Forest Regressor:
+An ensemble of decision trees for better accuracy.
+Support Vector Regressor (SVR):
+Uses support vectors to predict continuous values.
+Neural Networks for Regression:
+Deep learning models for complex regression tasks.
+2. Classification Models
+Classification models are used for predicting discrete class labels. The goal is to assign input data to one of the predefined categories.
+
+Examples of Use Cases:
+Spam detection (Spam or Not Spam).
+Customer churn prediction (Churn or No Churn).
+Image recognition (e.g., Cat, Dog, or Bird).
+Common Classification Models:
+Logistic Regression:
+Used for binary classification problems.
+Example: Predicting whether a customer will churn (Yes/No).
+Decision Tree Classifier:
+Splits data into branches based on feature values.
+Random Forest Classifier:
+An ensemble of decision trees for better accuracy and robustness.
+Support Vector Machine (SVM):
+Finds the hyperplane that best separates the classes.
+K-Nearest Neighbors (KNN):
+Classifies based on the majority class of the nearest neighbors.
+Naive Bayes:
+Based on Bayes' theorem, often used for text classification.
+Neural Networks for Classification:
+Deep learning models for tasks like image or speech recognition.
+3. Models That Can Be Used for Both Regression and Classification
+Some models can handle both regression and classification tasks depending on how they are configured:
+
+Decision Trees:
+Can be used for regression (predicting continuous values) or classification (predicting discrete labels).
+Random Forests:
+Random Forest Regressor for regression tasks.
+Random Forest Classifier for classification tasks.
+Support Vector Machines (SVM):
+Support Vector Regressor (SVR) for regression.
+Support Vector Classifier (SVC) for classification.
+Neural Networks:
+Can be configured for regression (outputting continuous values) or classification (outputting probabilities or class labels).
+
+4. Supervised vs Unsupervised Models
+Supervised Learning
+Definition: Models are trained on labeled data (i.e., input features and corresponding target labels).
+Goal: Learn the mapping between inputs and outputs to make predictions on new data.
+Examples:
+Regression: Linear Regression, Random Forest Regressor.
+Classification: Logistic Regression, Random Forest Classifier.
+Unsupervised Learning
+Definition: Models are trained on unlabeled data (i.e., only input features, no target labels).
+Goal: Discover patterns, groupings, or structures in the data.
+Examples:
+Clustering: K-Means, DBSCAN, Hierarchical Clustering.
+Dimensionality Reduction: PCA (Principal Component Analysis), t-SNE.
+Anomaly Detection: Isolation Forest, Autoencoders.
+Comparison of Supervised vs Unsupervised Learning
+Aspect	Supervised Learning	Unsupervised Learning
+Input Data	Labeled (features + target labels)	Unlabeled (only features)
+Goal	Predict target labels or values	Discover patterns or groupings
+Examples	Regression, Classification	Clustering, Dimensionality Reduction
+Use Cases	Spam detection, churn prediction	Customer segmentation, anomaly detection
+Summary
+Regression Models: Predict continuous values (e.g., house prices).
+Classification Models: Predict discrete labels (e.g., churn or no churn).
+Models for Both: Decision Trees, Random Forests, Neural Networks, etc.
+Supervised Learning: Requires labeled data (e.g., regression, classification).
+Unsupervised Learning: Works with unlabeled data (e.g., clustering, dimensionality reduction).
+Let me know if you'd like further clarification or examples! 🚀
+
+
+
 
