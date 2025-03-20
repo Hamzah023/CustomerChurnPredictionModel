@@ -83,7 +83,7 @@ def main():
             if df is None:
                 print("Data not loaded. Please load data first.\n")
             else:
-                print("Customer churn prediction functionality is not implemented yet.\n")
+                print("Customer churn prediction functionality is implemented on jupyter notebook, open the file and run it.\n")
 
         elif choice == '4':
 
